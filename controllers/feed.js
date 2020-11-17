@@ -43,7 +43,11 @@ exports.createPost = async (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  const imageUrl = req.file.path;
+  // กรณี OS เป็น window ใช่ file path แบบนี่
+  const imageUrl = req.file.path.replace("\\","/");
+  // // กรณี OS เป็น non-window ใช่ file path แบบนี่
+  // const imageUrl = req.file.path;
+
   const title = req.body.title;
   const content = req.body.content;
   const post = new Post({
@@ -104,7 +108,10 @@ exports.updatePost = async (req, res, next) => {
   const content = req.body.content;
   let imageUrl = req.body.image;
   if (req.file) {
-    imageUrl = req.file.path;
+    // กรณี OS เป็น window ใช่ file path แบบนี่
+    const imageUrl = req.file.path.replace("\\","/");
+    // // กรณี OS เป็น non-window ใช่ file path แบบนี่
+    // const imageUrl = req.file.path;
   }
   if (!imageUrl) {
     const error = new Error('No file picked.');

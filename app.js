@@ -10,14 +10,27 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 
+// กรณี OS เป็น window ใช่ uuid ในการจัดการไฟล์ที่อัพโหลด
+const uuidv4 = require('uuid/v4');
+
 const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'images');
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
-  }
+    destination: function(req, file, cb) {
+        cb(null, 'images');
+    },
+    filename: function(req, file, cb) {
+        cb(null, uuidv4())
+    }
 });
+
+// // กรณี OS เป็น non-window
+// const fileStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'images');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().toISOString() + '-' + file.originalname);
+//   }
+// });
 
 const fileFilter = (req, file, cb) => {
   if (

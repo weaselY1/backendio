@@ -7,6 +7,7 @@ const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
+// เหมือนจะมีปัญหาที validator
 router.put(
   '/signup',
   [
